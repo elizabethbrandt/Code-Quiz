@@ -1,0 +1,28 @@
+header {
+    display: flex;
+    justify-content: flex-start;
+}
+
+.time {
+    align-self: flex-end;
+}
+
+.questionContainer {
+    text-align: center;
+    margin: 20px 500px;
+}
+
+.questionText {
+    font-size: 30px;
+}
+
+ol {
+    display: flex;
+    flex-direction: column;
+}
+
+li {
+    background-color: purple;
+    color: white;
+    margin: 10px;
+}
