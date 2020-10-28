@@ -24,5 +24,6 @@ ol {
 li {
     background-color: purple;
     color: white;
+    font-size: 20px;
     margin: 10px;
 }
