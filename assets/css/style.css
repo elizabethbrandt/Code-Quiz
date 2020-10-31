@@ -1,4 +1,4 @@
-header {
+nav {
     display: flex;
     justify-content: flex-start;
 }
@@ -12,11 +12,11 @@ header {
     margin: 20px 500px;
 }
 
-.questionText {
+/* .questionText {
     font-size: 30px;
-}
+} */
 
-ol {
+/* ol {
     display: flex;
     flex-direction: column;
 }
@@ -26,4 +26,4 @@ li {
     color: white;
     font-size: 20px;
     margin: 10px;
-}
+} */
