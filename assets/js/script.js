@@ -6,35 +6,138 @@
 
 // VAR currentScore/timeLeft
 
-// VAR questions - Array
-
 // VAR pointer/index - Current position in the question array
+var currentQuestionIndex
+
+// shuffle the questions
+var shuffledQuestions
+
+// Question and answer variables
+var questionEl = document.getElementById('question');
+var answerButtonsEl = document.getElementById('answer-btns')
 
 // VAR startButton
 var startPage = document.getElementById('start-page');
 var startButton = document.getElementById('start-btn');
+var questionContainerEl = document.getElementById('questionContainer')
 
 // OBJECT: QUESTIONS
 var questions = [
     {
         // Question text
-        // List of question answers
-        // Correct answer property
-            // answer:"correct"
+        question: 'What is used to repeat an action until a specified condition evaluates to false?',
+        // List of answers
+        answers: [
+            { text: 'for loop', correct: true },
+            { text: 'conditionals', correct: false },
+            { text: 'repeat', correct: false },
+            { text: 'while loop', correct: false }
+        ]
+    },
+    {
+        question: 'How do you declare a variable?',
+        answers: [
+            { text: 'vari', correct: false },
+            { text: 'var', correct: true },
+            { text: 'variable', correct: false },
+            { text: 'v', correct: false }
+        ]
+    },
+    {
+        question: 'Values that are true or false are known as:',
+        answers: [
+            { text: 'strings', correct: false },
+            { text: 'objects', correct: false },
+            { text: 'booleans', correct: true },
+            { text: 'arrays', correct: false }
+        ]
+    },
+    {
+        question: 'How can you exit a loop?',
+        answers: [
+            { text: 'exit', correct: false },
+            { text: 'return', correct: true },
+            { text: 'leave', correct: false },
+            { text: 'rtrn', correct: false }
+        ]
+    },
+    {
+        question: 'What is the comparison operator for “not equal”?',
+        answers: [
+            { text: '===', correct: false },
+            { text: '<==', correct: false },
+            { text: '>==', correct: false },
+            { text: '!==', correct: true }
+        ]
+    },
+    {
+        question: 'Arrays should be wrapped in:',
+        answers: [
+            { text: 'curly brackets', correct: false },
+            { text: 'parentheses', correct: false },
+            { text: 'square brackets', correct: true },
+            { text: 'quotation marks', correct: false }
+        ]
+    },
+    {
+        question: 'The process of outlining your code before you build it is known as:',
+        answers: [
+            { text: 'pre-coding', correct: false },
+            { text: 'comment-coding', correct: false },
+            { text: 'pseudo-coding', correct: true },
+            { text: 'false-coding', correct: false }
+        ]
+    },
+    {
+        question: 'What is one way to get a user to input information?',
+        answers: [
+            { text: 'prompt', correct: true },
+            { text: 'alert', correct: false },
+            { text: 'confirm', correct: false },
+            { text: 'console', correct: false }
+        ]
     }
 ]
 
 // GIVEN I am taking a code quiz
 
-// WHEN I click the `start button`
-startButton.addEventListener('click', startQuiz)
 
-function startQuiz(){ 
+// WHEN I click the `start button`
+startButton.addEventListener('click', startGame)
+
+// THEN the `startQuiz` function runs
+function startGame(){ 
     console.log('Started')
+    // HIDE the start page
     startPage.classList.add('hide');
+    // SHUFFLE my questions
+    shuffledQuestions = questions.sort(() => Math.random() - .5);
+    // SET my current index to 0
+    currentQuestionIndex = 0;
+    // UNHIDE my question
+    questionContainerEl.classList.remove('hide');
+    // move to the next question in the array
+    setNextQuestion();
 }
 
-// 'startButton'.addEventListener("click", startGame);
+function setNextQuestion() {
+    resetState();
+    showQuestion(shuffledQuestions[currentQuestionIndex]);
+}
+
+function showQuestion(questions) {
+    questionEl.innerText = questions.question;
+    questions.answers.forEach(answer => {
+        var button = document.createElement('button');
+        button.innerText = answer.text;
+        button.classList.add('btn')
+        if (answer.correct) {
+            button.dataset.correct = answer.correct
+        }
+        button.addEventListener('click', selectAnswer)
+        answerButtonsEl.appendChild(button);
+    })
+}
 
 // THEN a timer starts and I am presented with a question
 
@@ -53,9 +156,35 @@ function startQuiz(){
         // > button.setAttribute("data-choice", questionText)
 
 // WHEN I answer a question
-function selectAnswer() {
-
+function resetState() {
+    while (answerButtonsEl.firstChild) {
+        answerButtonsEl.removeChild(answerButtonsEl.firstChild);
+    }
 }
+
+function selectAnswer(event) {
+    var selectedButton = event.target
+    var correct = selectedButton.dataset.correct
+    setStatusClass(document.body, correct)
+    Array.from(answerButtonsEl.children).forEach(button => {
+        setStatusClass(button, button.dataset.correct)
+    })
+}
+
+function setStatusClass() {
+    clearStatusClass(element)
+    if (correct) {
+        element.classList.add('correct')
+    } else {
+        element.classList.add('wrong')
+    }
+}
+
+function clearStatusClass() {
+    element.classList.remove('correct')
+    element.classList.remove('wrong')
+}
+
     // * When the user clicks one of the `answerButtons`
 
 // WHEN I answer a question incorrectly
@@ -71,9 +200,7 @@ function selectAnswer() {
     // > Subtract points from current score
 
 // THEN I am presented with another question
-function nextQuestion() {
 
-}
     // * Increase our pointer by 1
     // * Clear out the previous question
     // * Display the next question
