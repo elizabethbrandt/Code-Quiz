@@ -1,22 +1,18 @@
-/*
+// var interval; to do the `timed` functionality
 
-# Tasks
-​
-* var interval; to do the `timed` functionality
+// `interval = setInterval(fuction() {}, 1000)`
 
-* interval = setInterval(fuction() {}, 1000)
-​
-* clearInterval to stop the timeout
-​
-* VAR currentScore/timeLeft
-​
-* VAR questions - Array
-​
-* VAR pointer/index - Current position in the question array
-​
-* VAR startButton
+// clearInterval to stop the timeout
 
-*/
+// VAR currentScore/timeLeft
+
+// VAR questions - Array
+
+// VAR pointer/index - Current position in the question array
+
+// VAR startButton
+var startPage = document.getElementById('start-page');
+var startButton = document.getElementById('start-btn');
 
 // OBJECT: QUESTIONS
 var questions = [
@@ -28,23 +24,25 @@ var questions = [
     }
 ]
 
-​
 // GIVEN I am taking a code quiz
-​
-// WHEN I click the `start button`
 
-function startGame(){
-​
+// WHEN I click the `start button`
+startButton.addEventListener('click', startQuiz)
+
+function startQuiz(){ 
+    console.log('Started')
+    startPage.classList.add('hide');
 }
 
 // 'startButton'.addEventListener("click", startGame);
-​
+
 // THEN a timer starts and I am presented with a question
-​
-    // * Set starting score = 75 (-- to subtract the timer by 1)
+
+    // * Set starting score = 100 (-- to subtract the timer by 1)
+    var score = 100;
     // * Start the interval to begin the score countdown
 
-​    // * PRESENT the question = Create new HTML elements for the question content
+    // PRESENT the question = Create new HTML elements for the question content
         // > Set the #questionContainer divs innerHTML = "";
         // > Append an `h2` for the question text
         // > Append a new `button` for each choice
@@ -55,6 +53,9 @@ function startGame(){
         // > button.setAttribute("data-choice", questionText)
 
 // WHEN I answer a question
+function selectAnswer() {
+
+}
     // * When the user clicks one of the `answerButtons`
 
 // WHEN I answer a question incorrectly
@@ -70,6 +71,9 @@ function startGame(){
     // > Subtract points from current score
 
 // THEN I am presented with another question
+function nextQuestion() {
+
+}
     // * Increase our pointer by 1
     // * Clear out the previous question
     // * Display the next question

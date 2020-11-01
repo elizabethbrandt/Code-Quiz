@@ -10,26 +10,46 @@
 
 <body>
 
-    <script src="./assets/js/script.js"></script>
-
     <nav>
-        <!-- link to highscores html -->
-        <h1 class="highscores">View Highscores</h1>
+        <a class="highscores" href="./highscore.html">View Highscores</a>
         <h1 class="time">Time:</h1>
     </nav>
 
-    <div class="questionContainer">
+    <div class="container">
 
-    </div>
+        <div id="questionContainer" class="hide">
 
-    <div class="results">
+            <div id="question" class="hide">Question</div>
 
-        <form>
-            <input type="text" id="initials">
-            <button>Submit</button>
-        </form>
+            <div id="answer-btns" class="btn-grid">
+                <button class="btn">Answer 1</button>
+                <button class="btn">Answer 2</button>
+                <button class="btn">Answer 3</button>
+                <button class="btn">Answer 4</button>
+            </div>
 
-    </div>
+        </div>
+
+        <div id="start-page">
+
+            <h2>Welcome to the Javascript Coding Quiz</h2>
+            <p>You will be asked a series of multiple choice questions....</p>
+            <button id="start-btn" class="start-btn btn">Start</button>
+            
+        </div>
+
+        <div class="results hide">
+
+            <form>
+                <input type="text" id="initials">
+                <button>Submit</button>
+            </form>
+
+        </div>
+
+    </div>    
+
+    <script src="./assets/js/script.js"></script>
 
 </body>
 
