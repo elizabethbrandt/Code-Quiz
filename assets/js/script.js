@@ -1,16 +1,7 @@
-// var interval; to do the `timed` functionality
-
-// `interval = setInterval(fuction() {}, 1000)`
-
-// clearInterval to stop the timeout
-
-// VAR currentScore/timeLeft
+var userInitials = JSON.parse(localStorage.getItem('userInitials')) || [];
 
 // VAR pointer/index - Current position in the question array
-var currentQuestionIndex
-
-// shuffle the questions
-var shuffledQuestions
+var currentQuestionIndex = 0;
 
 // Question and answer variables
 var questionEl = document.getElementById('question');
@@ -25,6 +16,10 @@ var answer4 = document.getElementById('4');
 var startPage = document.getElementById('start-page');
 var startButton = document.getElementById('start-btn');
 var questionContainerEl = document.getElementById('questionContainer')
+var score = 100;
+var answerIndicator = document.getElementById('correct-answer');
+
+var timerEl = document.getElementById('timer');
 
 // OBJECT: QUESTIONS
 var questionList = [
@@ -114,41 +109,34 @@ var questionList = [
 showQuestion();
 function showQuestion() {
 
-    // SET my current index to 0
-    currentQuestionIndex = 0;
-    // > Set the #questionContainer divs innerHTML = "";
-
-    // for (var i = 0; i > questionList.length; i++) {
-    //     questionEl.textContent = questionList[i].questionText;
-    //     answerButtonsEl.textContent = questionList[i].answerOptions;
-    // }
     questionEl.textContent = questionList[currentQuestionIndex].questionText
     // answerButtonsEl.textContent = questionList[currentQuestionIndex].answerOptions;
-    // answer1.textContent = questionList[currentQuestionIndex].answerOptions[0]
-    // answer2.textContent = questionList[currentQuestionIndex].answerOptions[1]
-    // answer3.textContent = questionList[currentQuestionIndex].answerOptions[2]
-    // answer4.textContent = questionList[currentQuestionIndex].answerOptions[3]
+    answer1.textContent = questionList[currentQuestionIndex].answerOptions[0].text
+    answer2.textContent = questionList[currentQuestionIndex].answerOptions[1].text
+    answer3.textContent = questionList[currentQuestionIndex].answerOptions[2].text
+    answer4.textContent = questionList[currentQuestionIndex].answerOptions[3].text
 
-
-    // > Append an `h2` for the question text
-
-    // > Append a new `button` for each choice
+    answer1.setAttribute('data-correct', questionList[currentQuestionIndex].answerOptions[0].correct)
+    answer2.setAttribute('data-correct', questionList[currentQuestionIndex].answerOptions[1].correct)
+    answer3.setAttribute('data-correct', questionList[currentQuestionIndex].answerOptions[2].correct)
+    answer4.setAttribute('data-correct', questionList[currentQuestionIndex].answerOptions[3].correct)
 
     var newbutton = document.createElement('button');
-    // button.textContent = questionText
-    // OR
-    // var clickButtonContent = event.target.getAttribute("data-choice", questionText);
-
-    // > The question is correct with clickButtonValue == questions[pointer].answer
-
-    // Change the text of the question to match the randomly selected question from `questionList`
-
-    // Change the text of the corresponding `answerOptions`
-
-    // > button.setAttribute("data-choice", questionText)
-
 
 }
+
+answerButtonsEl.addEventListener('click', function (event) {
+    var isCorrect = event.target.dataset.correct;
+    if (isCorrect === 'true') {
+        answerIndicator.textContent = 'Correct!';
+    } else {
+        answerIndicator.textContent = 'Incorrect';
+        score -= 10;
+    }
+    currentQuestionIndex++;
+    showQuestion();
+    // set timeout to delay the function running and set answerIndicator to ''
+});
 
 // WHEN I click the `start button`
 startButton.addEventListener('click', startGame)
@@ -162,6 +150,7 @@ function startGame() {
     questionContainerEl.classList.remove('hide');
     // move to the next question in the array
     showQuestion();
+    startTimer();
 }
 
 function setNextQuestion() {
@@ -169,12 +158,29 @@ function setNextQuestion() {
     showQuestion(currentQuestionIndex);
 }
 
-
+function endQuiz() {
+    var userInput = prompt('Please enter your initials');
+    var finalScore = { initials: userInput, userScore: score };
+    userInitials.push(finalScore);
+    var userString = JSON.stringify(userInitials);
+    localStorage.setItem('userInitials', userString);
+}
 
 // THEN a timer starts and I am presented with a question
+function startTimer() {
+    timerEl.textContent = 'Time: ' + score
+    var timerInterval = setInterval(function () {
+        timerEl.innerHTML = 'Time: ' + score--;
+        if (score <= 0) {
+            clearInterval(timerInterval);
+            endQuiz();
+        }
+    }, 1000)
+}
 
+// add endQuiz() when currentQuestionIndex is over
 // * Set starting score = 100 (-- to subtract the timer by 1)
-var score = 100;
+
 // * Start the interval to begin the score countdown
 
 
